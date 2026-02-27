@@ -3,6 +3,7 @@
 from flask import Flask, render_template
 
 from webfuzz.settings import config
+from webfuzz import core
 
 
 def create_app(config_object=config):
@@ -17,4 +18,12 @@ def create_app(config_object=config):
     app.logger.info(f"Using {config_object.__class__.__name__}")
     app.logger.info(f"Debug mode is {config_object.DEBUG}")
 
+    register_blueprints(app)
+
     return app
+
+
+def register_blueprints(app: Flask):
+    """Registering blueprints."""
+
+    app.register_blueprint(core.urls.blueprint)
