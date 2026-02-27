@@ -4,6 +4,8 @@
   "description": "Web Interface for FFUF Library",
   "private": true,
   "scripts": {
+    "watchCss": "npx tailwindcss -i ./webfuzz/static/styles/tailwind.css -o ./webfuzz/static/styles/style.css --watch",
+    "buildCss": "npx tailwindcss -i ./webfuzz/static/styles/tailwind.css -o ./webfuzz/static/styles/style.css --minify",
     "format": "prettier --write \"**/*.{html,css,js}\"",
     "format:check": "prettier --check \"**/*.{html,css,js}\""
   },
