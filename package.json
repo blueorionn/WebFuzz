@@ -1,0 +1,13 @@
+{
+  "name": "webfuzz",
+  "version": "1.0.0",
+  "description": "Web Interface for Fuzz Library",
+  "private": true,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blueorionn/webfuzz.git"
+  },
+  "author": "Swadhin",
+  "license": "MIT"
+}
