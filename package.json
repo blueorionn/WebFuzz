@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "description": "Web Interface for FFUF Library",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "format": "prettier --write \"**/*.{html,css,js}\"",
+    "format:check": "prettier --check \"**/*.{html,css,js}\""
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/blueorionn/webfuzz.git"
   },
   "author": "Swadhin",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
 }
