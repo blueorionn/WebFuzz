@@ -19,6 +19,7 @@ def create_app(config_object=config):
     app.logger.info(f"Debug mode is {config_object.DEBUG}")
 
     register_blueprints(app)
+    register_error_handlers(app)
 
     return app
 
@@ -27,3 +28,22 @@ def register_blueprints(app: Flask):
     """Registering blueprints."""
 
     app.register_blueprint(core.urls.blueprint)
+
+
+def register_error_handlers(app: Flask):
+    """Registering error handlers."""
+
+    @app.errorhandler(404)
+    def not_found(e):
+        data = {"error_code": "404", "error_message": "Page Not Found"}
+        return render_template("handlers/handler.html", **data), 404
+
+    @app.errorhandler(405)
+    def method_not_allowed(e):
+        data = {"error_code": "405", "error_message": "Method Not Allowed"}
+        return render_template("handlers/handler.html", **data), 405
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        data = {"error_code": "500", "error_message": "Internal Server Error"}
+        return render_template("handlers/handler.html", **data), 500
