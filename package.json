@@ -1,7 +1,7 @@
 {
   "name": "webfuzz",
   "version": "1.0.0",
-  "description": "Web Interface for Fuzz Library",
+  "description": "Web Interface for FFUF Library",
   "private": true,
   "scripts": {},
   "repository": {
