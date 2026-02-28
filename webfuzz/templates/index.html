@@ -1,11 +1,123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebFuzz</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebFuzz - Web Interface for FFUF</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/base.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/style.css')}}" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </head>
+  <body>
+    <header class="w-full h-max p-4 px-8 lg:p-8 lg:px-12">
+      <a href="/" class="no-underline"
+        ><h1 class="text-2xl lg:text-3xl font-bold text-[var(--clr-base-blue)]">WebFuzz</h1></a
+      >
+      <h2 class="text-gray-100 text-lg">Web Interface For FFUF</h2>
+    </header>
+    <main class="w-full h-max p-4 flex flex-col lg:flex-row gap-8 lg:gap-16">
+      <section class="bg-slate-900 border border-gray-700 rounded-md p-4 px-8">
+        <div id="fuzzer-option" class="flex flex-col gap-8">
+          <div>
+            <h2 class="text-lg font-semibold text-[var(--clr-base-blue)]">URL Fuzzer Configuration</h2>
+            <span class="text-base text-gray-200">Configure your fuzzing parameters </span>
+          </div>
+          <div class="flex flex-col gap-4">
+            <h2 class="text-gray-300 font-semibold text-base uppercase">BASIC SETTINGS</h2>
+            <div>
+              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">TARGET URL</h3>
+              <input
+                type="url"
+                class="min-w-96 w-full rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder="https://www.target.com/FUZZ"
+              />
+            </div>
+            <div class="flex gap-6">
+              <div>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">HTTP METHOD</h3>
+                <select
+                  name="http-methods"
+                  class="block w-full appearance-auto rounded-md border border-gray-700 bg-gray-900 p-2.5 text-gray-300 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                >
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                  <option value="PUT">PUT</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+              </div>
+              <div>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">RANDOM DELAY (MS)</h3>
+                <input
+                  type="number"
+                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  placeholder="100"
+                />
+              </div>
+            </div>
+            <div>
+              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">WORDLIST / PAYLOAD</h3>
+              <textarea
+                name="payload"
+                id="payload"
+                class="w-full bg-gray-900 border border-gray-700 text-heading text-sm rounded-md focus:ring-brand focus:border-blue-500 focus:outline-none focus:ring-blue-500 block p-3.5 shadow-xs"
+                placeholder="Paste your wordlist here..."
+              ></textarea>
+            </div>
+            <div>
+              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">CUSTOM HEADER</h3>
+              <input
+                type="text"
+                class="min-w-96 w-full rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder="session=abc123; token=xyz789"
+              />
+            </div>
+            <div class="flex gap-6">
+              <div>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">FILTER STATUS CODES</h3>
+                <input
+                  type="text"
+                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  placeholder="e.g. 200,302"
+                />
+              </div>
+              <div>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">MATCH STATUS CODES</h3>
+                <input
+                  type="text"
+                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  placeholder="e.g. 404,500"
+                />
+              </div>
+            </div>
+            <div>
+              <button type="button" class="group w-full p-2.5 rounded-md bg-blue-500 transition-all hover:bg-blue-600">
+                <span class="font-semibold text-base text-gray-200 group-hover:text-gray-300 transition-all"
+                  >Start Fuzzing</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="url-encoding"></div>
+      </section>
+      <section class="bg-slate-900 border rounded-md border-gray-700 lg:flex-grow">
+        <div id="fuzzer-result" class="w-full">
+          <div class="flex justify-between p-4 items-center bg-slate-800 border-b border-b-gray-700">
+            <div class="flex-grow">
+              <span class="text-gray-300 text-sm font-semibold uppercase">PAYLOAD</span>
+            </div>
+            <div class="flex-grow">
+              <span class="text-gray-300 text-sm font-semibold uppercase">STATUS</span>
+            </div>
+            <div class="flex-grow">
+              <span class="text-gray-300 text-sm font-semibold uppercase">SIZE</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
 </html>

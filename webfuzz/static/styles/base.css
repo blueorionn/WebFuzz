@@ -8,6 +8,9 @@
 
 :root {
   --clr-bs-green: #42b883;
+  --clr-base-blue: #7ae2e3;
+  --clr-dark-blue: #008aa9;
+  --crl-base-black: #111827;
 }
 
 html {
@@ -36,6 +39,6 @@ body {
 }
 
 body {
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: var(--crl-base-black);
 }
