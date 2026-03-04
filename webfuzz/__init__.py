@@ -3,7 +3,7 @@
 from flask import Flask, render_template
 
 from webfuzz.settings import config
-from webfuzz import core
+from webfuzz import core, api
 
 
 def create_app(config_object=config):
@@ -28,6 +28,7 @@ def register_blueprints(app: Flask):
     """Registering blueprints."""
 
     app.register_blueprint(core.urls.blueprint)
+    app.register_blueprint(api.urls.blueprint)
 
 
 def register_error_handlers(app: Flask):
