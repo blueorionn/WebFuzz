@@ -6,11 +6,13 @@
     <title>WebFuzz - Web Interface for FFUF</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles/base.css')}}" />
     <link rel="stylesheet" href="{{url_for('static', filename='styles/style.css')}}" />
+    <script src="{{url_for('static', filename='scripts/main.js')}}" defer></script>
+    <script src="{{url_for('static', filename='scripts/utils.js')}}" defer></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </head>
   <body>
-    <header class="w-full h-max p-4 px-8 lg:p-8 lg:px-12">
+    <header class="w-full h-max p-4 lg:p-8">
       <a href="/" class="no-underline"
         ><h1 class="text-2xl lg:text-3xl font-bold text-[var(--clr-base-blue)]">WebFuzz</h1></a
       >
@@ -29,6 +31,8 @@
               <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">TARGET URL</h3>
               <input
                 type="url"
+                name="fuzz-url"
+                id="fuzz-url"
                 class="min-w-96 w-full rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                 placeholder="https://www.target.com/FUZZ"
               />
@@ -37,8 +41,9 @@
               <div>
                 <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">HTTP METHOD</h3>
                 <select
-                  name="http-methods"
-                  class="block w-full appearance-auto rounded-md border border-gray-700 bg-gray-900 p-2.5 text-gray-300 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  name="http-method"
+                  id="http-method"
+                  class="block w-32 appearance-auto rounded-md border border-gray-700 bg-gray-900 p-2.5 text-gray-300 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                 >
                   <option value="GET">GET</option>
                   <option value="POST">POST</option>
@@ -47,11 +52,32 @@
                 </select>
               </div>
               <div>
-                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">RANDOM DELAY (MS)</h3>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">FIXED DELAY (MS)</h3>
                 <input
                   type="number"
+                  id="fixed-delay"
                   class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                  placeholder="100"
+                  placeholder="10"
+                />
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">FILTER STATUS CODES</h3>
+                <input
+                  type="text"
+                  id="filter-status-codes"
+                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  placeholder="e.g. 200,302"
+                />
+              </div>
+              <div>
+                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">MATCH STATUS CODES</h3>
+                <input
+                  type="text"
+                  id="match-status-codes"
+                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  placeholder="e.g. 404,500"
                 />
               </div>
             </div>
@@ -65,33 +91,38 @@
               ></textarea>
             </div>
             <div>
-              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">CUSTOM HEADER</h3>
+              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">POST DATA</h3>
+              <textarea
+                name="post-data"
+                id="post-data"
+                class="w-full bg-gray-900 border border-gray-700 text-heading text-sm rounded-md focus:ring-brand focus:border-blue-500 focus:outline-none focus:ring-blue-500 block p-3.5 shadow-xs"
+                placeholder="username=carlos&password=FUZZ"
+              ></textarea>
+            </div>
+            <div>
+              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">USER AGENT</h3>
               <input
                 type="text"
+                id="user-agent"
+                class="w-full rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+              />
+            </div>
+            <div>
+              <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">COOKIES</h3>
+              <input
+                type="text"
+                id="cookies"
                 class="min-w-96 w-full rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                 placeholder="session=abc123; token=xyz789"
               />
             </div>
-            <div class="flex gap-6">
-              <div>
-                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">FILTER STATUS CODES</h3>
-                <input
-                  type="text"
-                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                  placeholder="e.g. 200,302"
-                />
-              </div>
-              <div>
-                <h3 class="text-gray-400 font-semibold text-sm uppercase my-2.5">MATCH STATUS CODES</h3>
-                <input
-                  type="text"
-                  class="w-32 rounded-md bg-gray-900 border border-gray-700 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block px-3 py-2.5 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                  placeholder="e.g. 404,500"
-                />
-              </div>
-            </div>
             <div>
-              <button type="button" class="group w-full p-2.5 rounded-md bg-blue-500 transition-all hover:bg-blue-600">
+              <button
+                type="button"
+                id="send-fuzzing-request"
+                class="group w-full p-2.5 rounded-md bg-blue-500 transition-all hover:bg-blue-600"
+              >
                 <span class="font-semibold text-base text-gray-200 group-hover:text-gray-300 transition-all"
                   >Start Fuzzing</span
                 >
