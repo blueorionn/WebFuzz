@@ -135,14 +135,23 @@
       <section class="bg-slate-900 border rounded-md border-gray-700 lg:flex-grow">
         <div id="fuzzer-result" class="w-full">
           <div class="flex justify-between p-4 items-center bg-slate-800 border-b border-b-gray-700">
-            <div class="flex-grow">
+            <div class="flex-grow flex justify-center items-center gap-1">
               <span class="text-gray-300 text-sm font-semibold uppercase">PAYLOAD</span>
+              <ion-icon name="arrow-down"></ion-icon>
             </div>
-            <div class="flex-grow">
+            <div class="flex-grow flex justify-center items-center gap-1">
               <span class="text-gray-300 text-sm font-semibold uppercase">STATUS</span>
+              <ion-icon name="arrow-down"></ion-icon>
             </div>
-            <div class="flex-grow">
+            <div class="flex-grow flex justify-center items-center gap-1">
               <span class="text-gray-300 text-sm font-semibold uppercase">SIZE</span>
+              <ion-icon name="arrow-down"></ion-icon>
+            </div>
+          </div>
+          <div class="h-full">
+            <div id="place-holder" class="my-12 w-full flex justify-center items-center gap-4">
+              <span class="text-lg font-semibold text-slate-400">Specify CSV file to visualize it</span>
+              <ion-icon name="cloud-upload" class="text-slate-400 text-lg"></ion-icon>
             </div>
           </div>
         </div>
