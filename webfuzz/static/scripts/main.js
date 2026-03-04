@@ -52,11 +52,49 @@ function postFuzzingConfig() {
         alert('payload is empty')
         return
     }
+
+    return {
+        FUZZ_URL,
+        FUZZ_METHOD,
+        FUZZ_DELAY,
+        FUZZ_FILTER_STATUS_CODES,
+        FUZZ_MATCH_STATUS_CODES,
+        FUZZ_PAYLOAD,
+        FUZZ_POST_DATA,
+        FUZZ_USER_AGENT,
+        FUZZ_COOKIES
+    }
+}
+
+async function postData(url, data) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const responseData = await response.json()
+    } catch (error) {
+        console.error('Error:', error) // Handle network or HTTP errors
+    }
 }
 
 (function () {
+    const API_ENDPOINT = '/api/fuzz'
     const FUZZ_BUTTON = document.querySelector('button#send-fuzzing-request')
     FUZZ_BUTTON.addEventListener("click", function () {
-        postFuzzingConfig()
+        const POST_DATA = postFuzzingConfig()
+
+        // post data to api
+        if (POST_DATA !== undefined) {
+            postData(API_ENDPOINT, JSON.stringify(POST_DATA))
+        }
     })
 })()
