@@ -6,6 +6,7 @@ from flask.views import MethodView
 from webfuzz.utils import is_valid_url
 
 from .misc import FuzzRequestDataType, validate_status_codes, validate_cookies
+from .func import check_is_ffuf_installed
 
 
 class IndexView(MethodView):
@@ -14,7 +15,7 @@ class IndexView(MethodView):
 
 
 class FuzzView(MethodView):
-    def post(self):
+    async def post(self):
         data: FuzzRequestDataType = request.get_json()
 
         # data validation
@@ -68,5 +69,9 @@ class FuzzView(MethodView):
 
         if data.get("FUZZ_COOKIES") and not validate_cookies(data["FUZZ_COOKIES"]):
             return jsonify({"error": "Invalid FUZZ_COOKIES"}), 400
+
+        # check if ffuf is installed
+        if not check_is_ffuf_installed():
+            return jsonify({"error": "ffuf is not installed in the server"}), 500
 
         return jsonify({"message": "fuzzing started!"}), 200
