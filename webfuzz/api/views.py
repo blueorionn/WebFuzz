@@ -6,7 +6,7 @@ from flask.views import MethodView
 from webfuzz.utils import is_valid_url
 
 from .misc import FuzzRequestDataType, validate_status_codes, validate_cookies
-from .func import check_is_ffuf_installed
+from .func import check_is_ffuf_installed, fuzz_request_with_ffuf
 
 
 class IndexView(MethodView):
@@ -74,4 +74,5 @@ class FuzzView(MethodView):
         if not check_is_ffuf_installed():
             return jsonify({"error": "ffuf is not installed in the server"}), 500
 
-        return jsonify({"message": "fuzzing started!"}), 200
+        fuzz_result = await fuzz_request_with_ffuf(**data)
+        return jsonify(fuzz_result), fuzz_result.get("status", 500)
