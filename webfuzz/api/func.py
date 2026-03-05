@@ -34,7 +34,7 @@ def fuzz_request_with_ffuf(
     output_file = (
         f'{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}_{uuid.uuid4()}.csv'
     )
-    output_path = os.path.join(current_app.config["OUTPUT_DIR"], output_file)
+    output_path = os.path.join(current_app.config["FFUF_OUTPUT_PATH"], output_file)
 
     cmd = [
         "ffuf",
