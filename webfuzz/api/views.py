@@ -15,7 +15,7 @@ class IndexView(MethodView):
 
 
 class FuzzView(MethodView):
-    async def post(self):
+    def post(self):
         data: FuzzRequestDataType = request.get_json()
 
         # data validation
@@ -74,5 +74,5 @@ class FuzzView(MethodView):
         if not check_is_ffuf_installed():
             return jsonify({"error": "ffuf is not installed in the server"}), 500
 
-        fuzz_result = await fuzz_request_with_ffuf(**data)
+        fuzz_result = fuzz_request_with_ffuf(**data)
         return jsonify(fuzz_result), fuzz_result.get("status", 500)

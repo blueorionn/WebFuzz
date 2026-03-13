@@ -11,7 +11,8 @@ class Config:
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     # FFUF output path
-    FFUF_OUTPUT_PATH = os.path.join(PROJECT_ROOT, "tmp/ffuf_output")
+    FFUF_OUTPUT_PATH = os.path.join(PROJECT_ROOT, "webfuzz/tmp/ffuf_output")
+    os.makedirs(FFUF_OUTPUT_PATH, exist_ok=True)
     # File size restriction
     MAX_CONTENT_LENGTH = 24 * 1024 * 1024  # 24 megabytes
 

@@ -32,7 +32,7 @@ def fuzz_request_with_ffuf(
     """Fuzz a request using ffuf."""
 
     output_file = (
-        f'{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}_{uuid.uuid4()}.csv'
+        f'{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_{uuid.uuid4()}.csv'
     )
     output_path = os.path.join(current_app.config["FFUF_OUTPUT_PATH"], output_file)
 
@@ -45,10 +45,12 @@ def fuzz_request_with_ffuf(
         "-w",
         "-",  # read from stdin
         "-s",  # silent
-        "-delay",
+        "-p",
         str(FUZZ_DELAY),
-        f"-o {output_path}",
-        "-of csv",
+        "-o",
+        output_path,
+        "-of",
+        "csv",
     ]
 
     # validations
@@ -75,7 +77,8 @@ def fuzz_request_with_ffuf(
             stdout=subprocess.DEVNULL,  # hide normal output
             stderr=subprocess.PIPE,  # capture errors
             check=True,
+            text=True,
         )
         return {"message": {"output_file": f"{output_path}"}, "status": 200}
     except subprocess.CalledProcessError as e:
-        return {"message": {"error": e.stderr.decode().strip()}, "status": 500}
+        return {"message": {"error": e.stderr.strip()}, "status": 500}
