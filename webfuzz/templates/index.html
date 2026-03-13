@@ -135,18 +135,26 @@
       <section class="bg-slate-900 border rounded-md border-gray-700 lg:flex-grow">
         <div id="fuzzer-result" class="w-full">
           <div class="flex justify-between p-4 items-center bg-slate-800 border-b border-b-gray-700">
-            <div class="flex-grow flex justify-center items-center gap-1">
+            <button class="flex-grow flex justify-center items-center gap-1" aria-label="csv-header">
               <span class="text-gray-300 text-sm font-semibold uppercase">PAYLOAD</span>
               <ion-icon name="arrow-down"></ion-icon>
-            </div>
-            <div class="flex-grow flex justify-center items-center gap-1">
-              <span class="text-gray-300 text-sm font-semibold uppercase">STATUS</span>
+            </button>
+            <button class="flex-grow flex justify-center items-center gap-1" aria-label="csv-header">
+              <span class="text-gray-300 text-sm font-semibold uppercase">STATUS CODE</span>
               <ion-icon name="arrow-down"></ion-icon>
-            </div>
-            <div class="flex-grow flex justify-center items-center gap-1">
-              <span class="text-gray-300 text-sm font-semibold uppercase">SIZE</span>
+            </button>
+            <button class="flex-grow flex justify-center items-center gap-1" aria-label="csv-header">
+              <span class="text-gray-300 text-sm font-semibold uppercase">CONTENT LENGTH</span>
               <ion-icon name="arrow-down"></ion-icon>
-            </div>
+            </button>
+            <button class="flex-grow flex justify-center items-center gap-1" aria-label="csv-header">
+              <span class="text-gray-300 text-sm font-semibold uppercase">CONTENT WORDS</span>
+              <ion-icon name="arrow-down"></ion-icon>
+            </button>
+            <button class="flex-grow flex justify-center items-center gap-1" aria-label="csv-header">
+              <span class="text-gray-300 text-sm font-semibold uppercase">CONTENT LINES</span>
+              <ion-icon name="arrow-down"></ion-icon>
+            </button>
           </div>
           <div class="h-full">
             <div id="place-holder" class="my-12 w-full flex justify-center items-center gap-4">
