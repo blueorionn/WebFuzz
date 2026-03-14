@@ -68,7 +68,7 @@ function postFuzzingConfig() {
 }
 
 /**
- * Data posting function 
+ * Data posting function
  */
 async function postData(url, data) {
   try {
@@ -91,29 +91,30 @@ async function postData(url, data) {
 }
 
 function csvHeaderToggle() {
-  const csvHeaders = document.querySelectorAll(`button[aria-label='csv-header']`)
+  const csvHeaders = document.querySelectorAll(`button[aria-label='csv-header']`);
   const className = 'csv_header_arrow_rotate';
 
   csvHeaders.forEach(function (el) {
-    el.addEventListener("click", function () {
+    el.addEventListener('click', function () {
       // targeting second child
       if (el.children.length >= 2) {
-        const secondChild = el.children[1]
+        const secondChild = el.children[1];
 
         // toggle classname
         if (secondChild.classList.contains(className)) {
-          secondChild.classList.remove(className)
-        } else { secondChild.classList.add(className) }
+          secondChild.classList.remove(className);
+        } else {
+          secondChild.classList.add(className);
+        }
       }
-    })
-  })
+    });
+  });
 }
 
-function csvViewer() { }
+function csvViewer() {}
 
 // Immediately Invoked Function Expression (IIFE)
 (function () {
-
   /**
    * API Data Posting
    */
