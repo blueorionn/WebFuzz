@@ -67,6 +67,9 @@ function postFuzzingConfig() {
   };
 }
 
+/**
+ * Data posting function 
+ */
 async function postData(url, data) {
   try {
     const response = await fetch(url, {
@@ -87,7 +90,33 @@ async function postData(url, data) {
   }
 }
 
+function csvHeaderToggle() {
+  const csvHeaders = document.querySelectorAll(`button[aria-label='csv-header']`)
+  const className = 'csv_header_arrow_rotate';
+
+  csvHeaders.forEach(function (el) {
+    el.addEventListener("click", function () {
+      // targeting second child
+      if (el.children.length >= 2) {
+        const secondChild = el.children[1]
+
+        // toggle classname
+        if (secondChild.classList.contains(className)) {
+          secondChild.classList.remove(className)
+        } else { secondChild.classList.add(className) }
+      }
+    })
+  })
+}
+
+function csvViewer() { }
+
+// Immediately Invoked Function Expression (IIFE)
 (function () {
+
+  /**
+   * API Data Posting
+   */
   const API_ENDPOINT = '/api/fuzz';
   const FUZZ_BUTTON = document.querySelector('button#send-fuzzing-request');
   FUZZ_BUTTON.addEventListener('click', function () {
@@ -98,4 +127,9 @@ async function postData(url, data) {
       postData(API_ENDPOINT, JSON.stringify(POST_DATA));
     }
   });
+
+  /**
+   * CSV viewer
+   */
+  csvHeaderToggle();
 })();

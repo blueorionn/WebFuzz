@@ -10,6 +10,11 @@
     <script src="{{url_for('static', filename='scripts/utils.js')}}" defer></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+      .csv_header_arrow_rotate {
+        rotate: 180deg;
+      }
+    </style>
   </head>
   <body>
     <header class="w-full h-max p-4 lg:p-8">
@@ -134,7 +139,7 @@
       </section>
       <section class="bg-slate-900 border rounded-md border-gray-700 lg:flex-grow">
         <div id="fuzzer-result" class="w-full">
-          <div class="flex justify-between p-4 items-center bg-slate-800 border-b border-b-gray-700">
+          <div class="grid grid-cols-5 justify-between p-4 items-center bg-slate-800 border-b border-b-gray-700">
             <button class="flex-grow flex justify-center items-center gap-1" aria-label="csv-header">
               <span class="text-gray-300 text-sm font-semibold uppercase">PAYLOAD</span>
               <ion-icon name="arrow-down"></ion-icon>
@@ -157,9 +162,19 @@
             </button>
           </div>
           <div class="h-full">
-            <div id="place-holder" class="my-12 w-full flex justify-center items-center gap-4">
-              <span class="text-lg font-semibold text-slate-400">Specify CSV file to visualize it</span>
+            <div id="place-holder" class="my-12 w-full flex justify-center items-center gap-2.5">
+              <span class="text-lg font-normal text-slate-400">Specify CSV file to visualize it</span>
               <ion-icon name="cloud-upload" class="text-slate-400 text-lg"></ion-icon>
+            </div>
+            <div id="table" class="my-12 w-full grid grid-cols-5 justify-center items-center">
+              <div class="flex flex-col gap-2.5 justify-center items-center text-slate-300 text-base"></div>
+              <div class="flex flex-col gap-2.5 justify-center items-center text-slate-300 text-base"></div>
+              <div class="flex flex-col gap-2.5 justify-center items-center text-slate-300 text-base"></div>
+              <div class="flex flex-col gap-2.5 justify-center items-center text-slate-300 text-base"></div>
+              <div class="flex flex-col gap-2.5 justify-center items-center text-slate-300 text-base"></div>
+            </div>
+            <div id="file-error" class="my-12 w-full justify-center items-center gap-4 hidden">
+              <span class="text-lg font-normal text-red-400">Either file doesn't exist or unable to retrive</span>
             </div>
           </div>
         </div>
