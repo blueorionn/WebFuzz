@@ -1,7 +1,11 @@
 """API views."""
 
+import os
 import json
-from flask import request, jsonify
+import pandas as pd
+
+from pathlib import Path
+from flask import request, current_app, jsonify
 from flask.views import MethodView
 from webfuzz.utils import is_valid_url
 
@@ -76,3 +80,24 @@ class FuzzView(MethodView):
 
         fuzz_result = fuzz_request_with_ffuf(**data)
         return jsonify(fuzz_result), fuzz_result.get("status", 500)
+
+
+class OutputView(MethodView):
+    def get(self):
+        filename = request.args.get("filename", None)
+        if filename:
+            if Path(
+                os.path.join(current_app.config["FFUF_OUTPUT_PATH"], filename)
+            ).is_file():
+                df = pd.read_csv(
+                    os.path.join(current_app.config["FFUF_OUTPUT_PATH"], filename)
+                )
+                data = df.to_dict(orient="records")
+                return jsonify({"result": {"data": data}}), 200
+            else:
+                return jsonify({"result": {"error": "CSV file not found."}}), 404
+        else:
+            return (
+                jsonify({"result": {"error": "Filename parameter is required."}}),
+                400,
+            )
